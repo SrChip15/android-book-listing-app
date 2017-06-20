@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Books</string>
+
+    <!-- User hint to type the name of a book in the search bar -->
+    <string name="tooltip_search_button">Type Topic or Book Name</string>
+
+    <!-- Content description for the search bar button view -->
+    <string name="search_button_content_desc">Search button</string>
+
+    <!-- Content description for the search bar button view -->
+    <string name="title_text">Booooks</string>
+
+</resources>

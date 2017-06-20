@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.android.books.MainActivity">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="@dimen/search_bar_width"
+        android:layout_height="@dimen/card_view_height"
+        android:layout_centerInParent="true"
+        app:cardElevation="@dimen/min_dimension"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="@dimen/search_bar_width"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/user_input_text"
+                android:layout_width="@dimen/search_editable_text_width"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:hint="@string/tooltip_search_button"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="@dimen/min_dimension"/>
+
+            <ImageButton
+                android:id="@+id/search_button"
+                android:layout_width="@dimen/search_button_width"
+                android:layout_height="match_parent"
+                android:background="@color/search_button_background"
+                android:contentDescription="@string/search_button_content_desc"
+                android:onClick="searchFor"
+                android:src="@drawable/ic_search_black_18px"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/card_view"
+        android:gravity="center"
+        android:paddingBottom="@dimen/title_bottom_padding"
+        android:text="@string/title_text"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:textColor="@android:color/holo_green_dark"
+        android:textSize="@dimen/title_text_size"
+        android:typeface="monospace"/>
+
+</RelativeLayout>

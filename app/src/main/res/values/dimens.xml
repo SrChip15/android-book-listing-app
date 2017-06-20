@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Left hand side spacing for the editable search bar text view -->
+    <dimen name="search_bar_left_spacing">40dp</dimen>
+
+    <!-- Width dimension for the editable search bar text view-->
+    <dimen name="search_bar_width">320dp</dimen>
+
+    <!-- Bottom padding for the interface title  -->
+    <dimen name="title_bottom_padding">24dp</dimen>
+
+    <!-- Text size for the interface title  -->
+    <dimen name="title_text_size">40sp</dimen>
+
+    <!-- Height of the card view in density independent pixels  -->
+    <dimen name="card_view_height">72dp</dimen>
+
+    <!-- Elevation of the card -->
+    <dimen name="min_dimension">8dp</dimen>
+
+    <!-- Width of the editable text view search bar  -->
+    <dimen name="search_editable_text_width">240dp</dimen>
+
+    <!-- Width of the search button -->
+    <dimen name="search_button_width">70dp</dimen>
+
+</resources>
