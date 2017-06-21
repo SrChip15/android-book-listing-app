@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.android.books.MainActivity">
 
+    <!-- Card View for the user's search text and search button -->
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="@dimen/search_bar_width"
@@ -15,10 +16,12 @@
         app:cardElevation="@dimen/min_dimension"
         app:cardUseCompatPadding="true">
 
+        <!-- Horizontal LinearLayout container for the text and the button -->
         <LinearLayout
             android:layout_width="@dimen/search_bar_width"
             android:layout_height="match_parent">
 
+            <!-- Editable TextView for the user's search criteria -->
             <EditText
                 android:id="@+id/user_input_text"
                 android:layout_width="@dimen/search_editable_text_width"
@@ -29,6 +32,7 @@
                 android:maxLines="1"
                 android:padding="@dimen/min_dimension"/>
 
+            <!-- Button for the user to get the results for their search -->
             <ImageButton
                 android:id="@+id/search_button"
                 android:layout_width="@dimen/search_button_width"
@@ -42,6 +46,7 @@
 
     </android.support.v7.widget.CardView>
 
+    <!-- TextView for the banner of the interface -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
