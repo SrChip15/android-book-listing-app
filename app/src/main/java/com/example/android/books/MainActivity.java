@@ -19,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
 
 	public void searchFor(View view) {
 		// On click display list of books matching search criteria
-		// Build intent to go to the {@link QueryResults} activity
-		Intent results = new Intent(MainActivity.this, QueryResults.class);
+		// Build intent to go to the {@link QueryResultsActivity} activity
+		Intent results = new Intent(MainActivity.this, QueryResultsActivity.class);
 
 		// Pass on the control to the new activity and start the activity
 		startActivity(results);

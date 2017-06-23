@@ -1,6 +1,7 @@
 package com.example.android.books;
 
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,17 +12,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
-	/** A {@link List} to hold book titles */
+
+	private final String LOG_TAG = BookAdapter.class.getSimpleName();
+
+	/** A {@link List} of {@link String} to hold book titles */
 	private List<String> mListOfBooks;
+
+	private Context mContext;
 
 	/**
 	 * Create a new {@link BookAdapter} for the {@link RecyclerView}
 	 *
 	 * @param listOfBooks a {@link List<String>} of book titles
 	 */
-	BookAdapter(List<String> listOfBooks) {
-		this.mListOfBooks = new ArrayList<>();
-		mListOfBooks = listOfBooks;
+	BookAdapter(Context context, List<String> listOfBooks) {
+		this.mListOfBooks = listOfBooks;
+		this.mContext = context;
 	}
 
 	/**
@@ -34,7 +40,7 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 	 */
 	@Override
 	public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(parent.getContext()).inflate(
+		View view = LayoutInflater.from(mContext).inflate(
 				R.layout.book_card, parent, false);
 		return new CardViewHolder(view);
 	}
@@ -62,6 +68,28 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 	@Override
 	public int getItemCount() {
 		return mListOfBooks.size();
+	}
+
+	/**
+	 * Clear all data from the adapter's data set
+	 */
+	void clear() {
+		mListOfBooks = new ArrayList<>();
+	}
+
+	/**
+	 * Add data items from a {@link List} to the adapter's data set
+	 *
+	 * @param data a {@link List} of book titles as {@link String}s
+	 */
+	void addAll(List<String> data) {
+		for (String title : data) {
+			mListOfBooks.add(title);
+
+			// Notify the adapter of the change in the data set
+			// so that it repopulates the view with the updated data set
+			notifyDataSetChanged();
+		}
 	}
 
 	/**
