@@ -12,12 +12,11 @@ import java.util.List;
 
 public class QueryResultsActivity extends AppCompatActivity {
 
-	/** Tag for the log messages */
-	private static final String LOG_TAG = QueryResultsActivity.class.getSimpleName();
+	//private static final String LOG_TAG = QueryResultsActivity.class.getSimpleName();
 
 	/** URL for books data from the Google books API */
-	private final String REQUEST_URL =
-			"https://www.googleapis.com/books/v1/volumes?q=android&maxResults=10";
+	private String REQUEST_URL =
+			"https://www.googleapis.com/books/v1/volumes?q=";
 
 	/** Adapter for the list of book titles */
 	private BookAdapter mAdapter;
@@ -48,6 +47,11 @@ public class QueryResultsActivity extends AppCompatActivity {
 		// so the widget can be populated in the UI
 		recyclerView.setAdapter(mAdapter);
 
+		// Get the search term from user input
+		String searchForText = getIntent().getStringExtra("topic");
+
+		// Build the url from user search
+		REQUEST_URL += searchForText;
 
 		// Start the AsyncTask to fetch books from Google Books API
 		AsyncBooksTask asyncBooksTask = new AsyncBooksTask();
