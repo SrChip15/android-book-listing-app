@@ -9,5 +9,6 @@
 
     <!-- Content description for the search bar button view -->
     <string name="title_text">Booooks</string>
+    <string name="book_cover_image">Front Cover Image for the Book</string>
 
 </resources>

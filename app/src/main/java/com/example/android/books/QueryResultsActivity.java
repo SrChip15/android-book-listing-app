@@ -6,13 +6,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class QueryResultsActivity extends AppCompatActivity {
 
-	//private static final String LOG_TAG = QueryResultsActivity.class.getSimpleName();
+	private static final String LOG_TAG = QueryResultsActivity.class.getSimpleName();
 
 	/** URL for books data from the Google books API */
 	private String REQUEST_URL =
@@ -41,7 +42,7 @@ public class QueryResultsActivity extends AppCompatActivity {
 		recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
 		// Initialize the adapter with the sample data
-		mAdapter = new BookAdapter(this, new ArrayList<String>());
+		mAdapter = new BookAdapter(this, new ArrayList<Book>());
 
 		// Attach adapter to the {@link RecyclerView} widget
 		// so the widget can be populated in the UI
@@ -54,9 +55,9 @@ public class QueryResultsActivity extends AppCompatActivity {
 		REQUEST_URL += searchForText;
 
 		// Start the AsyncTask to fetch books from Google Books API
-		AsyncBooksTask asyncBooksTask = new AsyncBooksTask();
+		AsyncLoadBooksTask loadBooks = new AsyncLoadBooksTask();
 		/* URL for the search query */
-		asyncBooksTask.execute(REQUEST_URL);
+		loadBooks.execute(REQUEST_URL);
 	}
 
 	/**
@@ -68,7 +69,7 @@ public class QueryResultsActivity extends AppCompatActivity {
 	 * the Result will be {@link List<String>}. Correspondingly, the class would only override the
 	 * doInBackground() and onPostExecute() methods.
 	 */
-	private class AsyncBooksTask extends AsyncTask<String, Void, List<String>> {
+	private class AsyncLoadBooksTask extends AsyncTask<String, Void, List<Book>> {
 
 		/**
 		 * This method performs the network request and parsing on a pool of background threads
@@ -78,10 +79,15 @@ public class QueryResultsActivity extends AppCompatActivity {
 		 * @return the list of book titles
 		 */
 		@Override
-		protected List<String> doInBackground(String... urls) {
+		protected List<Book> doInBackground(String... urls) {
+			// Check whether the parameter is not empty or null
 			if (urls.length < 1 || urls[0] == null) {
+				// Empty object passed in as parameter
+				Log.v(LOG_TAG, "String url(s) is expected but nothing passed!");
 				return null;
 			}
+
+			// Return a list of {@link Book}s matching the user search criteria
 			return QueryUtils.fetchBooks(urls[0]);
 		}
 
@@ -92,7 +98,7 @@ public class QueryResultsActivity extends AppCompatActivity {
 		 * @param data the list of book titles parsed from the HTTP request
 		 */
 		@Override
-		protected void onPostExecute(List<String> data) {
+		protected void onPostExecute(List<Book> data) {
 			// Clear existing data on adapter before updating with the new list of book titles
 			mAdapter.clear();
 

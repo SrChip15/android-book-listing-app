@@ -6,19 +6,39 @@
     android:id="@+id/card_view"
     android:layout_width="200dp"
     android:layout_height="240dp"
-    app:cardElevation="8dp"
+    app:cardElevation="16dp"
     app:cardUseCompatPadding="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/front_cover_art_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/book_cover_image"
+            android:scaleType="fitXY"
+            tools:src="@drawable/book_cover_sample"/>
+
+        <TextView
+            android:id="@+id/author_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:paddingEnd="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            tools:text="Author"/>
+
         <TextView
             android:id="@+id/book_title_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
+            android:layout_above="@id/author_text_view"
+            android:padding="8dp"
             android:textColor="@android:color/black"
             tools:text="Title"/>
 

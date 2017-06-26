@@ -35,7 +35,7 @@ final class QueryUtils {
 	 * @param requestUrl a {@link String} as an url
 	 * @return the book titles of all the fetched books
 	 */
-	static List<String> fetchBooks(String requestUrl) {
+	static List<Book> fetchBooks(String requestUrl) {
 		// Create valid url object from the requestURL
 		URL url = createUrl(requestUrl);
 
@@ -77,14 +77,14 @@ final class QueryUtils {
 	 * Return a list of {@link String} objects that has been built up from
 	 * parsing the given JSON response.
 	 */
-	private static List<String> extractTitles(String booksJSON) {
+	private static List<Book> extractTitles(String booksJSON) {
 		// Exit early if no data was returned from the HTTP request
 		if (TextUtils.isEmpty(booksJSON)) {
 			return null;
 		}
 
-		// Initialize list of strings to hold the extracted book titles
-		List<String> bookTitles = new ArrayList<>();
+		// Initialize list of strings to hold the extracted books
+		List<Book> allBooks = new ArrayList<>();
 
 		// Traverse the raw JSON response parameter and mine for relevant information
 		try {
@@ -100,20 +100,41 @@ final class QueryUtils {
 				JSONObject volume = book.getJSONObject("volumeInfo");
 				// Get the book's title from the volume information
 				String bookTitle = volume.getString("title");
-				// Add the book title to the list
-				bookTitles.add(bookTitle);
 
+				// Extract information on authors of the book
+				// Initialize empty string to hold authors of the book
+				String authors = "";
+				// Check whether the JSON results contain information on authors of the book
+				if (volume.has("authors")) {
+					// JSON does have author information
+					// Extract the array that holds the data
+					JSONArray jsonAuthors = volume.getJSONArray("authors");
+					// Find and store the number of authors present in the authors array
+					int numberOfAuthors = jsonAuthors.length();
+					// Traverse the json array and add authors to the newly initialized array
+					for (int j = 0; j < numberOfAuthors; j++) {
+						authors += jsonAuthors.getString(j) + "\n";
+					}
+				}
+
+				if (authors.length() > 0) {
+					// Add the book to the list
+					allBooks.add(new Book(bookTitle, authors));
+				} else {
+					allBooks.add(new Book(bookTitle));
+				}
 			}
 
 		} catch (JSONException e) {
 			// If an error is thrown when executing any of the above statements in the "try" block,
 			// catch the exception here, so the app doesn't crash. Print a log message
 			// with the message from the exception.
-			Log.e(LOG_TAG, "Problem parsing the earthquake JSON results", e);
+			Log.e(LOG_TAG, "Problem parsing the google books JSON results", e);
+			e.printStackTrace();
 		}
 
 		// Return the successfully parsed book titles as a {@link List} object
-		return bookTitles;
+		return allBooks;
 	}
 
 	/**
@@ -199,5 +220,4 @@ final class QueryUtils {
 		// Convert the mutable characters sequence from the builder into a string and return
 		return output.toString();
 	}
-
 }
