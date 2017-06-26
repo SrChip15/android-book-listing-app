@@ -104,8 +104,11 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 	 * @param data a {@link List} of book titles as {@link String}s
 	 */
 	void addAll(List<Book> data) {
+		// Traverse the data list to add books to the adapter's data set
 		for (int i = 0; i < data.size(); i++) {
+			// Get the book at current index
 			Book book = data.get(i);
+			// Add the book to the data set
 			mListOfBooks.add(book);
 
 			// Notify the adapter of the change in the data set
