@@ -78,6 +78,8 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 			Log.v(LOG_TAG, "No information on authors");
 		}
 
+		// Set the cover image for the book
+		holder.bookArt.setImageBitmap(currentBook.getCoverImage());
 	}
 
 	/**
