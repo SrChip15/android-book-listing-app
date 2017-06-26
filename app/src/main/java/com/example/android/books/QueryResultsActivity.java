@@ -1,26 +1,44 @@
 package com.example.android.books;
 
-import android.os.AsyncTask;
+import android.app.LoaderManager;
+import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Loader;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class QueryResultsActivity extends AppCompatActivity {
+public class QueryResultsActivity
+		extends AppCompatActivity
+		implements LoaderCallbacks<List<Book>> {
 
-	private static final String LOG_TAG = QueryResultsActivity.class.getSimpleName();
+	// private static final String LOG_TAG = QueryResultsActivity.class.getSimpleName();
 
-	/** URL for books data from the Google books API */
+	/**
+	 * URL for books data from the Google books API
+	 */
 	private String REQUEST_URL =
 			"https://www.googleapis.com/books/v1/volumes?q=";
 
-	/** Adapter for the list of book titles */
+	/**
+	 * Adapter for the list of book titles
+	 */
 	private BookAdapter mAdapter;
+
+	/**
+	 * Constant value for the earthquake loader ID
+	 */
+	private static final int EARTHQUAKE_LOADER_ID = 1;
+
+	/**
+	 * Indeterminate progress bar for loading books
+	 */
+	private View mProgressSpinner;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,65 +66,57 @@ public class QueryResultsActivity extends AppCompatActivity {
 		// so the widget can be populated in the UI
 		recyclerView.setAdapter(mAdapter);
 
+		// Progress bar
+		mProgressSpinner = findViewById(R.id.progress_spinner);
+
 		// Get the search term from user input
 		String searchForText = getIntent().getStringExtra("topic");
 
 		// Build the url from user search
 		REQUEST_URL += searchForText;
 
-		// Start the AsyncTask to fetch books from Google Books API
-		AsyncLoadBooksTask loadBooks = new AsyncLoadBooksTask();
-		/* URL for the search query */
-		loadBooks.execute(REQUEST_URL);
+		// Get a reference to the loader manager in order to interact with the loaders
+		LoaderManager loaderManager = getLoaderManager();
+
+		// Initialize the loader manager. Pass in the constant declared above as the ID of the
+		// loader manager and pass in null for the bundle parameter. Finally, also pass in the
+		// context of the application since this application implements the LoaderCallbacks interface
+		loaderManager.initLoader(EARTHQUAKE_LOADER_ID, null, QueryResultsActivity.this);
 	}
 
 	/**
-	 * {@link AsyncTask} to perform the network request and its subsequent parsing on a separate
-	 * background thread pool thereby not blocking the UI thread. Upon successfully downloading and
-	 * parsing the information, the UI is updated with the new data list. Since, the application
-	 * will not display progress of the network request and information parsing, Progress parameter
-	 * will be Void while the Params will be {@link String} and
-	 * the Result will be {@link List<String>}. Correspondingly, the class would only override the
-	 * doInBackground() and onPostExecute() methods.
+	 * Create new loader object to load list of books as search query results for the user
 	 */
-	private class AsyncLoadBooksTask extends AsyncTask<String, Void, List<Book>> {
+	@Override
+	public Loader<List<Book>> onCreateLoader(int id, Bundle args) {
+		return new BookLoader(QueryResultsActivity.this, REQUEST_URL);
+	}
 
-		/**
-		 * This method performs the network request and parsing on a pool of background threads
-		 * and does not overload the UI thread
-		 *
-		 * @param urls the appropriate URL as a {@link String}
-		 * @return the list of book titles
-		 */
-		@Override
-		protected List<Book> doInBackground(String... urls) {
-			// Check whether the parameter is not empty or null
-			if (urls.length < 1 || urls[0] == null) {
-				// Empty object passed in as parameter
-				Log.v(LOG_TAG, "String url(s) is expected but nothing passed!");
-				return null;
-			}
+	/**
+	 * The loader requests and parses information downloader from the internet on a background
+	 * thread pool, keeping the UI thread unblocked
+	 */
+	@Override
+	public void onLoadFinished(Loader<List<Book>> loader, List<Book> books) {
+		// Hide progress bar
+		mProgressSpinner.setVisibility(View.GONE);
 
-			// Return a list of {@link Book}s matching the user search criteria
-			return QueryUtils.fetchBooks(urls[0]);
+		// Clear the adapter of previous data
+		mAdapter.clear();
+
+		// Add valid list of books to the adapter
+		if (books != null && !books.isEmpty()) {
+			mAdapter.addAll(books);
 		}
+	}
 
-		/**
-		 * This method gets the result of the background thread pool and as it runs on the UI thread
-		 * updates the UI correctly ensuring thread-safety.
-		 *
-		 * @param data the list of book titles parsed from the HTTP request
-		 */
-		@Override
-		protected void onPostExecute(List<Book> data) {
-			// Clear existing data on adapter before updating with the new list of book titles
-			mAdapter.clear();
-
-			// Ensure data list is not empty and add it to the adapter
-			if (data != null && !data.isEmpty()) {
-				mAdapter.addAll(data);
-			}
-		}
+	/**
+	 * This method is called when the loader is being destroyed by the loader manager
+	 */
+	@Override
+	public void onLoaderReset(Loader<List<Book>> loader) {
+		// Clear existing data on adapter as loader is reset
+		mAdapter.clear();
 	}
 }
 
