@@ -70,7 +70,7 @@ public class QueryResultsActivity
 		}
 
 		// Initialize the adapter with the sample data
-		mAdapter = new BookAdapter(this, new ArrayList<Book>());
+		mAdapter = new BookAdapter(new ArrayList<Book>());
 
 		// Attach adapter to the {@link RecyclerView} widget
 		// so the widget can be populated in the UI
@@ -83,7 +83,7 @@ public class QueryResultsActivity
 		String searchForText = getIntent().getStringExtra("topic");
 
 		// Build the url from user search
-		REQUEST_URL += searchForText + "&key=" + API_KEY;
+		REQUEST_URL += searchForText + "&maxResults=40" + "&key=" + API_KEY;
 
 		// Get a reference to the loader manager in order to interact with the loaders
 		LoaderManager loaderManager = getLoaderManager();

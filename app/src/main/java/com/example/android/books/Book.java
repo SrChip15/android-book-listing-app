@@ -1,7 +1,5 @@
 package com.example.android.books;
 
-import android.graphics.Bitmap;
-
 class Book {
 
 	/**
@@ -15,26 +13,14 @@ class Book {
 	private String mAuthors;
 
 	/**
-	 * String url for detailed information of the volume
-	 */
-	private String mSelfLink;
-
-	/**
-	 * Front cover image for the book
-	 */
-	private Bitmap mCoverImage;
-
-	/**
 	 * Create book object
 	 *
 	 * @param title title of the book
 	 * @param authors author of the book
 	 */
-	Book(String title, String authors, String selfLink) {
+	Book(String title, String authors) {
 		this.mTitle = title;
 		this.mAuthors = authors;
-		this.mSelfLink = selfLink;
-		mCoverImage = null;
 	}
 
 	/**
@@ -43,7 +29,6 @@ class Book {
 	 */
 	Book(String mTitle) {
 		this.mTitle = mTitle;
-		mCoverImage = null;
 	}
 
 	/**
@@ -61,27 +46,5 @@ class Book {
 	String getAuthor() {
 		// Return author of the book
 		return mAuthors;
-	}
-
-	/**
-	 * Returns the link for detailed information of the book volume
-	 */
-	String getSelfLink() {
-		return mSelfLink;
-	}
-
-	/**
-	 * Return the front cover image of the book
-	 */
-	Bitmap getCoverImage() {
-		return mCoverImage;
-	}
-
-	/**
-	 * Set the front cover image for the book
-	 * @param mCoverImage the {@link Bitmap} image of the book's front cover
-	 */
-	void setCoverImage(Bitmap mCoverImage) {
-		this.mCoverImage = mCoverImage;
 	}
 }

@@ -19,13 +19,15 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/book_cover_image"
             android:scaleType="fitXY"
-            tools:src="@drawable/book_cover_sample"/>
+            android:src="@drawable/book_cover"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/scrim"
+            android:layout_marginBottom="32dp"
+            android:layout_marginLeft="48dp"
+            android:layout_marginStart="48dp"
             android:orientation="vertical">
 
             <!-- Title of the book -->
@@ -33,10 +35,6 @@
                 android:id="@+id/book_title_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingEnd="@dimen/min_dimension"
-                android:paddingLeft="@dimen/min_dimension"
-                android:paddingRight="@dimen/min_dimension"
-                android:paddingStart="@dimen/min_dimension"
                 android:textColor="@android:color/white"
                 tools:text="Title"/>
 
@@ -45,15 +43,19 @@
                 android:id="@+id/author_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingEnd="@dimen/min_dimension"
-                android:paddingLeft="@dimen/min_dimension"
-                android:paddingRight="@dimen/min_dimension"
-                android:paddingStart="@dimen/min_dimension"
                 android:textColor="@android:color/white"
                 tools:text="Author"/>
 
-        </LinearLayout>
+            <RatingBar
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:stepSize="0.1"
+                android:isIndicator="true"
+                tools:rating="4"/>
 
+        </LinearLayout>
 
     </RelativeLayout>
 

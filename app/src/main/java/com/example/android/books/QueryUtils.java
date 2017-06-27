@@ -1,7 +1,5 @@
 package com.example.android.books;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -53,94 +51,9 @@ final class QueryUtils {
 			Log.e(LOG_TAG, "Problem making the HTTP request for the search criteria");
 		}
 
-		// Extract information from JSON response
-		List<Book> books = extractFeatures(jsonResponse);
-
-		assert books != null;
-		// Traverse the list of books and add front cover image for each book in the list
-		for (int i = 0; i < books.size(); i++) {
-			// Get the image url of book at current index
-			Book currentBook = books.get(i);
-
-			// Get the self-link for the current book
-			String selfLink = currentBook.getSelfLink();
-
-			// Parse the image
-			// Initialize bitmap variable to hold the front cover image of the book
-			Bitmap image = null;
-			// Parse the front cover image of the book over the internet
-			try {
-				// Perform the following steps
-				/*
-				1. Make HTTP request to the book volume's detailed information page
-				2. Grab the url of the required image version for the front cover of the book
-				3. Make HTTP request to the url containing the image and parse the image as bitmap
-				 */
-				image = fetchCoverImage(selfLink);
-			} catch (IOException e) {
-				Log.e(LOG_TAG, "Problem encountered while fetching cover image of the book");
-			}
-
-			// Add the image to the current book
-			currentBook.setCoverImage(image);
-		}
-
-		// Extract book title information from the json response and
-		// return it as a list of Strings
-		return books;
-	}
-
-	private static Bitmap fetchCoverImage(String bookUrl) throws IOException {
-		// Build valid url from string url
-		URL url = createUrl(bookUrl);
-
-		// Initialize bitmap variable to hold books front cover image
-		Bitmap image = null;
-
-		// Initialize string variable to hold the parsed json response
-		String jsonResponse = "";
-
-		// Perform HTTP request to the above url
-		try {
-			jsonResponse = makeHttpRequest(url);
-		} catch (IOException e) {
-			Log.e(LOG_TAG, "Problem making the HTTP request to self-link");
-		}
-
-		// Extract the image url from the JSON response
-		try {
-			// Parse the single book
-			JSONObject singleBook = new JSONObject(jsonResponse);
-
-			// Navigate to the volume info for image links
-			JSONObject volume = singleBook.getJSONObject("volumeInfo");
-
-			// Get the image links object
-			JSONObject imageLinks = volume.getJSONObject("imageLinks");
-
-			// Get the image url for the small image link
-			// Initialize string variable to hold url of the book's front page cover image
-			String imageUrl;
-			// Check whether the image links have a smaller version of the image
-			if (imageLinks.has("small")) {
-				// The book does have a smaller version of the image
-				// Grab the url of the image
-				imageUrl = imageLinks.getString("small");
-			} else {
-				// There is no small image for the book
-				// Grab the thumbnail of the book
-				imageUrl = imageLinks.getString("thumbnail");
-			}
-
-			// Parse the image over the internet with the url
-			image = getBookArt(imageUrl);
-
-		} catch (JSONException e) {
-			Log.e(LOG_TAG, "Problem extracting image information from book volume JSON results", e);
-		}
-
-		// Return the front cover image of the book
-		return image;
+		// Extract information from the JSON response for each book
+		// Return list of books
+		return QueryUtils.extractFeatures(jsonResponse);
 	}
 
 	/**
@@ -206,13 +119,10 @@ final class QueryUtils {
 					}
 				}
 
-				// Extract self-link to the book which will provide small image link
-				String selfLink = book.getString("selfLink");
-
 				// Make book from the extracted information
 				if (authors.length() > 0) {
 					// Add the book to the list
-					allBooks.add(new Book(bookTitle, authors, selfLink));
+					allBooks.add(new Book(bookTitle, authors));
 				} else {
 					// There is no information on the author of the book
 					// Add the book with only its title information
@@ -229,60 +139,6 @@ final class QueryUtils {
 
 		// Return the successfully parsed book titles as a {@link List} object
 		return allBooks;
-	}
-
-	private static Bitmap getBookArt(String url) throws IOException {
-		// Initialize bitmap variable to hold parsed image
-		Bitmap bookCoverImage = null;
-
-		// Return early if url is null
-		if (url == null) {
-			return bookCoverImage;
-		}
-
-		// Create valid url from string url parameter
-		URL validUrl = createUrl(url);
-
-		// Initialize HTTP connection object
-		HttpURLConnection urlConnection = null;
-
-		// Initialize {@link InputStream} to hold response from request
-		InputStream inputStream = null;
-
-		try {
-			// Establish connection to the url
-			urlConnection = (HttpURLConnection) validUrl.openConnection();
-
-			urlConnection.setDoInput(true);
-
-			// Establish connection to the url
-			urlConnection.connect();
-
-			// Check for successful connection
-			if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-				// Connection successfully established
-				inputStream = urlConnection.getInputStream();
-				bookCoverImage = BitmapFactory.decodeStream(inputStream);
-			}
-
-		} catch (IOException e) {
-			Log.e(LOG_TAG, "Problem encountered while parsing bitmap");
-
-		} finally {
-			if (urlConnection != null) {
-				// Disconnect the connection after successfully making the HTTP request
-				urlConnection.disconnect();
-			}
-			if (inputStream != null) {
-				// Close the stream after successfully parsing the request
-				// This may throw an IOException which is why it is explicitly mentioned in the
-				// method signature
-				inputStream.close();
-			}
-		}
-
-		// Return the bitmap of the front cover of the book
-		return bookCoverImage;
 	}
 
 	/**

@@ -1,7 +1,6 @@
 package com.example.android.books;
 
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,16 +21,13 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 	 */
 	private List<Book> mListOfBooks;
 
-	private Context mContext;
-
 	/**
 	 * Create a new {@link BookAdapter} for the {@link RecyclerView}
 	 *
 	 * @param listOfBooks a {@link List<String>} of book titles
 	 */
-	BookAdapter(Context context, List<Book> listOfBooks) {
+	BookAdapter(List<Book> listOfBooks) {
 		this.mListOfBooks = listOfBooks;
-		this.mContext = context;
 	}
 
 	/**
@@ -44,7 +40,7 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 	 */
 	@Override
 	public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(mContext).inflate(
+		View view = LayoutInflater.from(parent.getContext()).inflate(
 				R.layout.book_card, parent, false);
 		return new CardViewHolder(view);
 	}
@@ -75,11 +71,12 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 			}
 
 		} catch (NullPointerException e) {
+			// Author information is not available from the JSON response
 			Log.v(LOG_TAG, "No information on authors");
-		}
 
-		// Set the cover image for the book
-		holder.bookArt.setImageBitmap(currentBook.getCoverImage());
+			// Hide view from book
+			holder.bookAuthor.setVisibility(View.GONE);
+		}
 	}
 
 	/**
@@ -152,9 +149,6 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 
 			// Get reference to the {@link TextView} to set author of the book
 			bookAuthor = (TextView) itemView.findViewById(R.id.author_text_view);
-
-			// Get the reference to the {@link ImageView} to set the front cover art for the book
-			bookArt = (ImageView) itemView.findViewById(R.id.front_cover_art_image_view);
 		}
 	}
 }
