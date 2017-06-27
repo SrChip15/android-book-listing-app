@@ -3,6 +3,7 @@ package com.example.android.books;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Loader;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,8 @@ public class QueryResultsActivity
 	 */
 	private String REQUEST_URL =
 			"https://www.googleapis.com/books/v1/volumes?q=";
+
+	private static final String API_KEY = "AIzaSyCaNgg0GLoPlz75osYA3mDIYG0rWAZo01s";
 
 	/**
 	 * Adapter for the list of book titles
@@ -56,8 +59,15 @@ public class QueryResultsActivity
 		// The data container has fixed number of attractions and not infinite list
 		recyclerView.setHasFixedSize(true);
 
-		// Connect the {@link RecyclerView} widget to the vertical linear layout
-		recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+		// Connect the {@link RecyclerView} widget to a GridView layout
+		// Get the current orientation of the screen
+		int orientation = this.getResources().getConfiguration().orientation;
+		// Set span count based on orientation
+		if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+			recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+		} else {
+			recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+		}
 
 		// Initialize the adapter with the sample data
 		mAdapter = new BookAdapter(this, new ArrayList<Book>());
@@ -73,7 +83,7 @@ public class QueryResultsActivity
 		String searchForText = getIntent().getStringExtra("topic");
 
 		// Build the url from user search
-		REQUEST_URL += searchForText;
+		REQUEST_URL += searchForText + "&key=" + API_KEY;
 
 		// Get a reference to the loader manager in order to interact with the loaders
 		LoaderManager loaderManager = getLoaderManager();

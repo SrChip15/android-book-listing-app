@@ -13,7 +13,6 @@
         android:layout_width="@dimen/search_bar_width"
         android:layout_height="@dimen/card_view_height"
         android:layout_centerInParent="true"
-        app:cardElevation="@dimen/min_dimension"
         app:cardUseCompatPadding="true">
 
         <!-- Horizontal LinearLayout container for the text and the button -->
@@ -41,6 +40,7 @@
                 android:background="@color/search_button_background"
                 android:contentDescription="@string/search_button_content_desc"
                 android:onClick="searchFor"
+                android:scaleType="centerInside"
                 android:src="@drawable/ic_search_black_18px"/>
 
         </LinearLayout>

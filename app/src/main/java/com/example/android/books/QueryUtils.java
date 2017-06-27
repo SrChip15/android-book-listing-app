@@ -327,6 +327,7 @@ final class QueryUtils {
 				Log.e(LOG_TAG, "Error while connecting. Error Code: " + urlConnection.getResponseCode());
 			}
 		} catch (IOException e) {
+			e.getMessage();
 			Log.e(LOG_TAG, "Problem encountered while retrieving book results");
 		} finally {
 			if (urlConnection != null) {
