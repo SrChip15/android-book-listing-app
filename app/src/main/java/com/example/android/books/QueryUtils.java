@@ -114,11 +114,41 @@ final class QueryUtils {
 					// Find and store the number of authors present in the authors array
 					int numberOfAuthors = jsonAuthors.length();
 					// Set max number of authors that can be displayed effectively without
-					// convoluting the view
-					int maxAuthors = 4;
-					// Traverse the json array and add authors to the newly initialized array
-					for (int j = 0; j < numberOfAuthors && j < maxAuthors; j++) {
-						authors += jsonAuthors.getString(j) + "\n";
+					// over-populating the view
+					int maxAuthors = 3;
+
+					/* Sometimes author information hell within the author JSON array
+					 is a single string item with concatenated authors separated by
+					 a semicolon or a comma and this does not display itself properly on the
+					 screen because there are too many authors along with the separators */
+
+					// Initialize variables
+					String cAuthors = "";
+					String[] allAuthors =  null;
+
+					// Length of the first item from the array is used to deterministically
+					// come to the conclusion that the authors are concatenated together
+					// as a single string
+					int numberOfLetters = jsonAuthors.get(0).toString().length();
+					// Conservatively set 40 as the max length for an author's name
+					if (numberOfLetters > 40) {
+						// Authors are concatenated
+						// Extract concatenated authors and remove beginning and trailing characters
+						// as a result of toString() artifact
+						cAuthors = jsonAuthors.toString().substring(2, numberOfLetters - 1);
+						// Split on semi-colons or commas
+						allAuthors = cAuthors.split("[;,]");
+						// Traverse the array and get up to max authors
+						for (int j = 0; j < allAuthors.length && j < maxAuthors; j++) {
+							authors += allAuthors[j].trim() + "\n";
+						}
+
+					} else {
+						// Authors are not concatenated within the array as a single string item
+						// Traverse the json array and add authors to the newly initialized array
+						for (int j = 0; j < numberOfAuthors && j < maxAuthors; j++) {
+							authors += jsonAuthors.getString(j) + "\n";
+						}
 					}
 				}
 
@@ -130,15 +160,22 @@ final class QueryUtils {
 					bookRating = (float) volume.getDouble("averageRating");
 				}
 
-				// Make book from the extracted information
-				if (authors.length() > 0) {
-					// Add the book to the list
-					allBooks.add(new Book(bookTitle, authors, bookRating));
-				} else {
-					// There is no information on the author of the book
-					// Add the book with only its title information
-					allBooks.add(new Book(bookTitle));
+				// Get the current book's sale information
+				JSONObject saleInfo = book.getJSONObject("saleInfo");
+				// Get the value to determine whether the current book is saleable or not
+				String saleability = saleInfo.getString("saleability");
+				// Initialize a boolean variable to get the sale status of the book
+				boolean isSold = saleability.equals("FOR_SALE");
+				// Initialize variable to store book price
+				float bookPrice = 0f;
+				// Extract sale price only when book is available for sale
+				if (isSold) {
+					JSONObject priceInfo = saleInfo.getJSONObject("retailPrice");
+					bookPrice = (float) priceInfo.getDouble("amount");
 				}
+
+				// Add book to the list
+				allBooks.add(new Book(bookTitle, authors, bookRating, bookPrice));
 			}
 
 		} catch (JSONException e) {

@@ -78,16 +78,20 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 			Log.v(LOG_TAG, "No information on authors");
 
 			// Hide view from book
-			holder.bookAuthor.setVisibility(View.GONE);
+			holder.bookAuthor.setVisibility(View.INVISIBLE);
 		}
 
-		float ratings = currentBook.getRating();
-		if (ratings != 0f) {
-			// Set the rating for the book
-			holder.bookRating.setRating(currentBook.getRating());
-		} else {
-			// Ratings unavailable for the current book
-			holder.bookRating.setRating(0);
+		// Set the rating for the book
+		holder.bookRating.setRating(currentBook.getRating());
+
+		// Initialize string variable to store book price
+		String price = "";
+		if (currentBook.getPrice() > 0) {
+			// Book is available for sale
+			// Get the book price
+			price = "$" + currentBook.getPrice();
+			// Set the price of the book to the text view
+			holder.bookPrice.setText(price);
 		}
 	}
 
@@ -149,6 +153,11 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 		RatingBar bookRating;
 
 		/**
+		 * {@link TextView} for the retail price of the book
+		 */
+		TextView bookPrice;
+
+		/**
 		 * Create a new {@link ViewGroup}
 		 *
 		 * @param itemView an inflated custom {@link ViewGroup} to hold a single data item
@@ -168,9 +177,13 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 			bookRating.setMax(5);
 			// Set number of stars to show
 			bookRating.setNumStars(5);
-
+			// Set the stars color to white
 			Drawable progress = bookRating.getProgressDrawable();
 			DrawableCompat.setTint(progress, Color.YELLOW);
+
+			// Get reference to the retail {@link TextView} to set the retail price of the book
+			bookPrice = (TextView) itemView.findViewById(R.id.retail_price_text_view);
+
 		}
 	}
 }

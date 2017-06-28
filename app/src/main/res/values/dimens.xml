@@ -24,4 +24,19 @@
     <!-- Width of the search button -->
     <dimen name="search_button_width">56dp</dimen>
 
+    <!-- Height of the book -->
+    <dimen name="book_height">240dp</dimen>
+
+    <!-- Width of the book -->
+    <dimen name="book_width">200dp</dimen>
+
+    <!-- Left margin for text on book -->
+    <dimen name="book_info_centering_left">34dp</dimen>
+
+    <!-- Right margin for text on book -->
+    <dimen name="book_info_centering_right">20dp</dimen>
+
+    <!-- Vertical spacing -->
+    <dimen name="vertical_spacing">24dp</dimen>
+
 </resources>
