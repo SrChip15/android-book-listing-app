@@ -13,14 +13,20 @@ class Book {
 	private String mAuthors;
 
 	/**
+	 * Average rating for the book
+	 */
+	private float mRating;
+
+	/**
 	 * Create book object
 	 *
 	 * @param title title of the book
 	 * @param authors author of the book
 	 */
-	Book(String title, String authors) {
+	Book(String title, String authors, float rating) {
 		this.mTitle = title;
 		this.mAuthors = authors;
+		this.mRating = rating;
 	}
 
 	/**
@@ -41,10 +47,17 @@ class Book {
 	}
 
 	/**
-	 * Returns the author of the book
+	 * Return the author of the book
 	 */
 	String getAuthor() {
 		// Return author of the book
 		return mAuthors;
+	}
+
+	/**
+	 * Return the average rating of the book
+	 */
+	public float getRating() {
+		return mRating;
 	}
 }

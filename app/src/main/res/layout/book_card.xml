@@ -21,39 +21,49 @@
             android:scaleType="fitXY"
             android:src="@drawable/book_cover"/>
 
+        <!-- Title of the book -->
+        <TextView
+            android:id="@+id/book_title_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:textColor="@android:color/white"
+            tools:text="Title"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="32dp"
-            android:layout_marginLeft="48dp"
-            android:layout_marginStart="48dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginStart="32dp"
+
             android:orientation="vertical">
 
-            <!-- Title of the book -->
-            <TextView
-                android:id="@+id/book_title_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                tools:text="Title"/>
 
             <!-- Author of the book -->
             <TextView
                 android:id="@+id/author_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
+                android:textColor="#FFAB40"
                 tools:text="Author"/>
 
             <RatingBar
+                android:id="@+id/rating_bar"
                 style="?android:attr/ratingBarStyleSmall"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:numStars="5"
-                android:stepSize="0.1"
                 android:isIndicator="true"
-                tools:rating="4"/>
+                android:numStars="5"
+                android:rating="3"
+                android:stepSize="0.1"/>
 
         </LinearLayout>
 

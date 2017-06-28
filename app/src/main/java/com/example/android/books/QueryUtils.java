@@ -113,16 +113,27 @@ final class QueryUtils {
 					JSONArray jsonAuthors = volume.getJSONArray("authors");
 					// Find and store the number of authors present in the authors array
 					int numberOfAuthors = jsonAuthors.length();
+					// Set max number of authors that can be displayed effectively without
+					// convoluting the view
+					int maxAuthors = 4;
 					// Traverse the json array and add authors to the newly initialized array
-					for (int j = 0; j < numberOfAuthors; j++) {
+					for (int j = 0; j < numberOfAuthors && j < maxAuthors; j++) {
 						authors += jsonAuthors.getString(j) + "\n";
 					}
+				}
+
+				// Initialize float variable to hold current book's ratings
+				float bookRating = 0f;
+				// Check whether the JSON results contain information on book rating
+				if (volume.has("averageRating")) {
+					// Get the average rating of the book from the JSON response
+					bookRating = (float) volume.getDouble("averageRating");
 				}
 
 				// Make book from the extracted information
 				if (authors.length() > 0) {
 					// Add the book to the list
-					allBooks.add(new Book(bookTitle, authors));
+					allBooks.add(new Book(bookTitle, authors, bookRating));
 				} else {
 					// There is no information on the author of the book
 					// Add the book with only its title information

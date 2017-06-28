@@ -1,12 +1,15 @@
 package com.example.android.books;
 
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -77,6 +80,15 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 			// Hide view from book
 			holder.bookAuthor.setVisibility(View.GONE);
 		}
+
+		float ratings = currentBook.getRating();
+		if (ratings != 0f) {
+			// Set the rating for the book
+			holder.bookRating.setRating(currentBook.getRating());
+		} else {
+			// Ratings unavailable for the current book
+			holder.bookRating.setRating(0);
+		}
 	}
 
 	/**
@@ -132,9 +144,9 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 		TextView bookAuthor;
 
 		/**
-		 * ImageView for the front cover of the book
+		 * Rating bar for the average rating of the book
 		 */
-		ImageView bookArt;
+		RatingBar bookRating;
 
 		/**
 		 * Create a new {@link ViewGroup}
@@ -149,6 +161,16 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 
 			// Get reference to the {@link TextView} to set author of the book
 			bookAuthor = (TextView) itemView.findViewById(R.id.author_text_view);
+
+			// Get reference to the ratings bar
+			bookRating = (RatingBar) itemView.findViewById(R.id.rating_bar);
+			// Set the max stars for the bar
+			bookRating.setMax(5);
+			// Set number of stars to show
+			bookRating.setNumStars(5);
+
+			Drawable progress = bookRating.getProgressDrawable();
+			DrawableCompat.setTint(progress, Color.YELLOW);
 		}
 	}
 }
