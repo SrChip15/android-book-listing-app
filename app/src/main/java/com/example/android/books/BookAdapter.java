@@ -183,7 +183,6 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 
 			// Get reference to the retail {@link TextView} to set the retail price of the book
 			bookPrice = (TextView) itemView.findViewById(R.id.retail_price_text_view);
-
 		}
 	}
 }

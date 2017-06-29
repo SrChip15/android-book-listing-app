@@ -1,19 +1,30 @@
 package com.example.android.books;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
 	private EditText mUserSearch;
+
+	private RadioButton mTitleChecked;
+
+	private RadioButton mAuthorChecked;
+
+	private RadioButton mIsbnChecked;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +35,11 @@ public class MainActivity extends AppCompatActivity {
 		// Inflate the activity's UI
 		setContentView(R.layout.activity_main);
 
+		// Setup UI to hide soft keyboard when clicked outside the {@link EditText}
+		setupUI(findViewById(R.id.main_parent));
+
 		// Get a reference to the user input edit text view
-		mUserSearch = (EditText) findViewById(R.id.user_input_text);
+		mUserSearch = (EditText) findViewById(R.id.user_input_edit_text_view);
 
 		// Get a reference to the {@link ImageButton} to implement button click via keyboard
 		final ImageButton search = (ImageButton) findViewById(R.id.search_button);
@@ -49,10 +63,15 @@ public class MainActivity extends AppCompatActivity {
 				return false;
 			}
 		});
+
+		// Checkbox
+		mTitleChecked = (RadioButton) findViewById(R.id.title_radio);
+		mAuthorChecked = (RadioButton) findViewById(R.id.author_radio);
+		mIsbnChecked = (RadioButton) findViewById(R.id.isbn_radio);
 	}
 
 	public void searchFor(View view) {
-		EditText userInput = (EditText) findViewById(R.id.user_input_text);
+		EditText userInput = (EditText) findViewById(R.id.user_input_edit_text_view);
 		String input = userInput.getText().toString();
 
 		if (!input.isEmpty()) {
@@ -60,15 +79,57 @@ public class MainActivity extends AppCompatActivity {
 			// Build intent to go to the {@link QueryResultsActivity} activity
 			Intent results = new Intent(MainActivity.this, QueryResultsActivity.class);
 
-			// Pass the search term to {@link QueryResultsActivity} to be used while creating the url
+			// Get the user search text to {@link QueryResultsActivity} to be used while creating the url
 			results.putExtra("topic", mUserSearch.getText().toString().toLowerCase());
+
+			// Pass search filter if any
+			if (mTitleChecked.isChecked()) {
+				// User is searching for book titles that match the search text
+				results.putExtra("title", "intitle=");
+			} else if (mAuthorChecked.isChecked()) {
+				// User is searching for authors that match the search text
+				results.putExtra("author", "inauthor=");
+			} else if (mIsbnChecked.isChecked()) {
+				// User is specifically looking for the book with the provided isbn number
+				results.putExtra("isbn", "isbn=");
+			}
 
 			// Pass on the control to the new activity and start the activity
 			startActivity(results);
+
 		} else {
 			// User has not entered any search text
 			// Notify user to enter text via toast
 			Toast.makeText(MainActivity.this, "Enter text before proceeding", Toast.LENGTH_SHORT).show();
 		}
+	}
+
+	public void setupUI(View view) {
+
+		// Set up touch listener for non-text box views to hide keyboard.
+		if (!(view instanceof EditText)) {
+			view.setOnTouchListener(new View.OnTouchListener() {
+				public boolean onTouch(View v, MotionEvent event) {
+					hideSoftKeyboard(MainActivity.this);
+					return false;
+				}
+			});
+		}
+
+		//If a layout container, iterate over children and seed recursion.
+		if (view instanceof ViewGroup) {
+			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+				View innerView = ((ViewGroup) view).getChildAt(i);
+				setupUI(innerView);
+			}
+		}
+	}
+
+	public static void hideSoftKeyboard(Activity activity) {
+		InputMethodManager inputMethodManager =
+				(InputMethodManager) activity.getSystemService(
+						Activity.INPUT_METHOD_SERVICE);
+		inputMethodManager.hideSoftInputFromWindow(
+				activity.getCurrentFocus().getWindowToken(), 0);
 	}
 }

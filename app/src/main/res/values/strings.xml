@@ -9,6 +9,12 @@
 
     <!-- Content description for the search bar button view -->
     <string name="title_text">Booooks</string>
+
     <string name="book_cover_image">Front Cover Image for the Book</string>
+
+    <!-- Author search -->
+    <string name="author_checkbox_text">Author</string>
+    <string name="title_checkbox_text">Title</string>
+    <string name="isbn_checkbox_text">ISBN</string>
 
 </resources>

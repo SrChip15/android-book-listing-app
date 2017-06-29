@@ -2,6 +2,7 @@ package com.example.android.books;
 
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Intent;
 import android.content.Loader;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -79,11 +80,36 @@ public class QueryResultsActivity
 		// Progress bar
 		mProgressSpinner = findViewById(R.id.progress_spinner);
 
-		// Get the search term from user input
-		String searchForText = getIntent().getStringExtra("topic");
+		// Get the spawn intent
+		Intent queryIntent = getIntent();
+		// Get the search text typed by the user
+		String searchText = getIntent().getStringExtra("topic");
+		// Initialize variable to hold the processed search query
+		String processedQuery = "";
+		// Get the value for title key packaged in the spawn intent
+		String title = queryIntent.getStringExtra("title");
+		// Get the value for author key packaged in the spawn intent
+		String author = queryIntent.getStringExtra("author");
+		// Get the value for isbn key packaged in the spawn intent
+		String isbn = queryIntent.getStringExtra("isbn");
+
+		// Determine which radio box was checked based on non-null values from the above keys
+		if (title != null) {
+			// Title was checked by the user
+			processedQuery = searchText + "&" + title + searchText;
+		} else if (author != null) {
+			// User is searching an author matching the search text
+			processedQuery = searchText + "&" + author + searchText;
+		} else if (isbn != null) {
+			// User is searching the isbn number matching the search text
+			processedQuery = searchText + "&" + isbn + searchText;
+		} else {
+			// No filters used
+			processedQuery = searchText;
+		}
 
 		// Build the url from user search
-		REQUEST_URL += searchForText + "&maxResults=40" + "&key=" + API_KEY;
+		REQUEST_URL += processedQuery + "&maxResults=40" + "&key=" + API_KEY;
 
 		// Get a reference to the loader manager in order to interact with the loaders
 		LoaderManager loaderManager = getLoaderManager();

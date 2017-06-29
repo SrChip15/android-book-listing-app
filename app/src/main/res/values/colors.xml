@@ -9,4 +9,8 @@
 
     <!-- Text color for the book's author text -->
     <color name="book_author_text_color">#FFAB40</color>
+
+    <!-- Button tint color for the checkboxes in the main page -->
+    <color name="checkbox_tint">#FFAB40</color>
+
 </resources>

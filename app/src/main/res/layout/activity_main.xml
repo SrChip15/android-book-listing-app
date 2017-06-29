@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:id="@+id/main_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -22,7 +23,7 @@
 
             <!-- Editable TextView for the user's search criteria -->
             <EditText
-                android:id="@+id/user_input_text"
+                android:id="@+id/user_input_edit_text_view"
                 android:layout_width="@dimen/search_editable_text_width"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
@@ -59,5 +60,45 @@
         android:textColor="@android:color/holo_green_dark"
         android:textSize="@dimen/title_text_size"
         android:typeface="monospace"/>
+
+    <!-- Container for search filters -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/card_view"
+        android:layout_centerInParent="true">
+
+        <!-- Checkbox for searching book titles matching search text -->
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/title_radio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/min_dimension"
+                android:text="@string/title_checkbox_text"/>
+
+            <!-- Checkbox for searching book authors matching search text -->
+            <RadioButton
+                android:id="@+id/author_radio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/min_dimension"
+                android:text="@string/author_checkbox_text"/>
+
+            <!-- Checkbox for searching books based on ISBN of the book -->
+            <RadioButton
+                android:id="@+id/isbn_radio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/min_dimension"
+                android:text="@string/isbn_checkbox_text"/>
+
+        </RadioGroup>
+
+    </LinearLayout>
 
 </RelativeLayout>
