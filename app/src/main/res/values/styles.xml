@@ -17,15 +17,15 @@
     <!-- Styling for the book's title {@link TextView} -->
     <style name="book_title_text" parent="book_info_centering">
         <item name="android:typeface">serif</item>
+        <item name="android:textSize">@dimen/book_title_text_size</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 
     <!-- Styling for the book's author {@link TextView} -->
-    <style name="book_author_text" parent="book_info_centering">
-        <item name="android:layout_marginLeft">0dp</item>
-        <item name="android:layout_marginRight">0dp</item>
+    <style name="book_author_text">
         <item name="android:typeface">monospace</item>
-        <item name="android:textColor">@color/book_author_text_color</item>
+        <item name="android:textSize">@dimen/book_secondary_info</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
 </resources>

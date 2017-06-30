@@ -15,7 +15,7 @@ class BookLoader extends AsyncTaskLoader {
 	 * @param context the {@link Context} of the application
 	 * @param url {@link String} search query
 	 */
-	public BookLoader(Context context, String url) {
+	BookLoader(Context context, String url) {
 		super(context);
 		this.mSearchUrl = url;
 	}

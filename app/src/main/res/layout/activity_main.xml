@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:id="@+id/main_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.android.books.MainActivity">
@@ -61,44 +61,37 @@
         android:textSize="@dimen/title_text_size"
         android:typeface="monospace"/>
 
-    <!-- Container for search filters -->
-    <LinearLayout
+    <!-- Checkbox for searching book titles matching search text -->
+    <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/card_view"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        android:orientation="horizontal">
 
-        <!-- Checkbox for searching book titles matching search text -->
-        <RadioGroup
+        <RadioButton
+            android:id="@+id/title_radio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginRight="@dimen/min_dimension"
+            android:text="@string/title_checkbox_text"/>
 
-            <RadioButton
-                android:id="@+id/title_radio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/min_dimension"
-                android:text="@string/title_checkbox_text"/>
+        <!-- Checkbox for searching book authors matching search text -->
+        <RadioButton
+            android:id="@+id/author_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/min_dimension"
+            android:text="@string/author_checkbox_text"/>
 
-            <!-- Checkbox for searching book authors matching search text -->
-            <RadioButton
-                android:id="@+id/author_radio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/min_dimension"
-                android:text="@string/author_checkbox_text"/>
+        <!-- Checkbox for searching books based on ISBN of the book -->
+        <RadioButton
+            android:id="@+id/isbn_radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/min_dimension"
+            android:text="@string/isbn_checkbox_text"/>
 
-            <!-- Checkbox for searching books based on ISBN of the book -->
-            <RadioButton
-                android:id="@+id/isbn_radio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/min_dimension"
-                android:text="@string/isbn_checkbox_text"/>
-
-        </RadioGroup>
-
-    </LinearLayout>
+    </RadioGroup>
 
 </RelativeLayout>

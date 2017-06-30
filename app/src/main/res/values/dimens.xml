@@ -31,12 +31,14 @@
     <dimen name="book_width">200dp</dimen>
 
     <!-- Left margin for text on book -->
-    <dimen name="book_info_centering_left">34dp</dimen>
+    <dimen name="book_info_centering_left">12dp</dimen>
 
     <!-- Right margin for text on book -->
-    <dimen name="book_info_centering_right">20dp</dimen>
+    <dimen name="book_info_centering_right">12dp</dimen>
 
     <!-- Vertical spacing -->
-    <dimen name="vertical_spacing">24dp</dimen>
+    <dimen name="vertical_spacing">12dp</dimen>
+    <dimen name="book_title_text_size">16sp</dimen>
+    <dimen name="book_secondary_info">10sp</dimen>
 
 </resources>

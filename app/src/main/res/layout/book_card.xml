@@ -28,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/vertical_spacing"
+            android:gravity="center"
             tools:text="Title"/>
 
         <LinearLayout
@@ -46,6 +47,7 @@
                 android:layout_height="wrap_content"
                 tools:text="Author"/>
 
+            <!-- Average Ratings for the book -->
             <RatingBar
                 android:id="@+id/rating_bar"
                 style="?android:attr/ratingBarStyleSmall"
@@ -56,12 +58,14 @@
                 android:rating="3"
                 android:stepSize="0.1"/>
 
+            <!-- Price of the book -->
             <TextView
                 android:id="@+id/retail_price_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/min_dimension"
                 android:textColor="@android:color/holo_blue_light"
+                android:textSize="@dimen/book_secondary_info"
                 tools:text="$4.99"/>
 
         </LinearLayout>
