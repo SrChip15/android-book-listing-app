@@ -74,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/min_dimension"
-            android:text="@string/title_checkbox_text"/>
+            android:text="@string/title_radio_text"/>
 
         <!-- Checkbox for searching book authors matching search text -->
         <RadioButton
@@ -82,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/min_dimension"
-            android:text="@string/author_checkbox_text"/>
+            android:text="@string/author_radio_text"/>
 
         <!-- Checkbox for searching books based on ISBN of the book -->
         <RadioButton
@@ -90,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/min_dimension"
-            android:text="@string/isbn_checkbox_text"/>
+            android:text="@string/isbn_radio_text"/>
 
     </RadioGroup>
 

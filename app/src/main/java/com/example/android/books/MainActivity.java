@@ -18,13 +18,8 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
+	/** Editable {@link TextView} for user's search text */
 	private EditText mUserSearch;
-
-	private RadioButton mTitleChecked;
-
-	private RadioButton mAuthorChecked;
-
-	private RadioButton mIsbnChecked;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,26 +58,35 @@ public class MainActivity extends AppCompatActivity {
 				return false;
 			}
 		});
-
-		// Checkbox
-		mTitleChecked = (RadioButton) findViewById(R.id.title_radio);
-		mAuthorChecked = (RadioButton) findViewById(R.id.author_radio);
-		mIsbnChecked = (RadioButton) findViewById(R.id.isbn_radio);
 	}
 
+	/**
+	 * This method is called when the user hits the search button
+	 * It connects the user's search text to the query methods
+	 */
 	public void searchFor(View view) {
+		// Get a handle for the editable text view holding the user's search text
 		EditText userInput = (EditText) findViewById(R.id.user_input_edit_text_view);
+		// Get the characters from the {@link EditText} view and convert it to string value
 		String input = userInput.getText().toString();
+
+		// Search filter for search text matching book titles
+		RadioButton mTitleChecked = (RadioButton) findViewById(R.id.title_radio);
+		// Search filter for search text matching authors
+		RadioButton mAuthorChecked = (RadioButton) findViewById(R.id.author_radio);
+		// Search filter for search text matching ISBN numbers
+		RadioButton mIsbnChecked = (RadioButton) findViewById(R.id.isbn_radio);
 
 		if (!input.isEmpty()) {
 			// On click display list of books matching search criteria
 			// Build intent to go to the {@link QueryResultsActivity} activity
 			Intent results = new Intent(MainActivity.this, QueryResultsActivity.class);
 
-			// Get the user search text to {@link QueryResultsActivity} to be used while creating the url
+			// Get the user search text to {@link QueryResultsActivity}
+			// to be used while creating the url
 			results.putExtra("topic", mUserSearch.getText().toString().toLowerCase());
 
-			// Pass search filter if any
+			// Pass search filter, if any
 			if (mTitleChecked.isChecked()) {
 				// User is searching for book titles that match the search text
 				results.putExtra("title", "intitle=");
@@ -100,35 +104,56 @@ public class MainActivity extends AppCompatActivity {
 		} else {
 			// User has not entered any search text
 			// Notify user to enter text via toast
-			Toast.makeText(MainActivity.this, "Enter text before proceeding", Toast.LENGTH_SHORT).show();
+			Toast.makeText(
+					MainActivity.this,
+					getString(R.string.enter_text),
+					Toast.LENGTH_SHORT)
+					.show();
 		}
 	}
 
+	/**
+	 * Set up touch listeners on all parts of the UI besides the {@link EditText} so that the user
+	 * can click out to hide the soft keypad and choose the necessary filter radio boxes befitting
+	 * their need
+	 */
 	public void setupUI(View view) {
-
-		// Set up touch listener for non-text box views to hide keyboard.
+		// Set up touch listener for non-text box views to hide keyboard
 		if (!(view instanceof EditText)) {
 			view.setOnTouchListener(new View.OnTouchListener() {
+
+				@Override
 				public boolean onTouch(View v, MotionEvent event) {
+					// Hide keypad
 					hideSoftKeyboard(MainActivity.this);
 					return false;
 				}
 			});
 		}
 
-		//If a layout container, iterate over children and seed recursion.
+		//If a layout container, iterate over children and seed recursion
 		if (view instanceof ViewGroup) {
+			// Current view is a {@Link ViewGroup}
+			// Traverse the {@link ViewGroup}, over each child
 			for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+				// Get the current child view
 				View innerView = ((ViewGroup) view).getChildAt(i);
+				// Set up touch listeners on non-text box views
 				setupUI(innerView);
 			}
 		}
 	}
 
+	/**
+	 * This method hides the soft keypad that pops up when there are views that solicit user input
+	 */
 	public static void hideSoftKeyboard(Activity activity) {
+		// Get the activity's input method service
 		InputMethodManager inputMethodManager =
 				(InputMethodManager) activity.getSystemService(
 						Activity.INPUT_METHOD_SERVICE);
+
+		// Hide the soft keypad
 		inputMethodManager.hideSoftInputFromWindow(
 				activity.getCurrentFocus().getWindowToken(), 0);
 	}

@@ -43,8 +43,11 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 	 */
 	@Override
 	public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(parent.getContext()).inflate(
-				R.layout.book_card, parent, false);
+		// Use layout inflater and inflate the necessary view
+		View view = LayoutInflater.from(parent.getContext())
+				.inflate(R.layout.book_card, parent, false);
+
+		// Return inflated view
 		return new CardViewHolder(view);
 	}
 

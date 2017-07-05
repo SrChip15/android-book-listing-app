@@ -38,7 +38,11 @@
 
     <!-- Vertical spacing -->
     <dimen name="vertical_spacing">12dp</dimen>
+
+    <!-- Text size for the book title displayed within the book card -->
     <dimen name="book_title_text_size">16sp</dimen>
+
+    <!-- Text size for Author, RetailPrice displayed within the book card -->
     <dimen name="book_secondary_info">10sp</dimen>
 
 </resources>

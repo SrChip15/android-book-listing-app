@@ -2,7 +2,7 @@
     <string name="app_name">Books</string>
 
     <!-- User hint to type the name of a book in the search bar -->
-    <string name="tooltip_search_button">Type Topic or Book Name</string>
+    <string name="tooltip_search_button">Search"</string>
 
     <!-- Content description for the search bar button view -->
     <string name="search_button_content_desc">Search button</string>
@@ -12,9 +12,19 @@
 
     <string name="book_cover_image">Front Cover Image for the Book</string>
 
-    <!-- Author search -->
-    <string name="author_checkbox_text">Author</string>
-    <string name="title_checkbox_text">Title</string>
-    <string name="isbn_checkbox_text">ISBN</string>
+    <!-- Author radio filter -->
+    <string name="author_radio_text">Author</string>
+
+    <!-- Book title radio filter -->
+    <string name="title_radio_text">Title</string>
+
+    <!-- ISBN radio filter -->
+    <string name="isbn_radio_text">ISBN</string>
+
+    <!-- Text to display for the empty state view when there is no data to display -->
+    <string name="no_books">No Books To Display</string>
+
+    <!-- Prompt user to enter text in the search bar before proceeding -->
+    <string name="enter_text">Enter text before proceeding</string>
 
 </resources>

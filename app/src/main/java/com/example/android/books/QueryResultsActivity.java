@@ -9,8 +9,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +19,6 @@ import java.util.List;
 public class QueryResultsActivity
 		extends AppCompatActivity
 		implements LoaderCallbacks<List<Book>> {
-
-	// private static final String LOG_TAG = QueryResultsActivity.class.getSimpleName();
 
 	/**
 	 * URL for books data from the Google books API
@@ -42,7 +41,12 @@ public class QueryResultsActivity
 	/**
 	 * Indeterminate progress bar for loading books
 	 */
-	private View mProgressSpinner;
+	private ProgressBar mProgressSpinner;
+
+	/**
+	 * TextView that is displayed when the list is empty
+	 */
+	private TextView mEmptyStateView;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +58,7 @@ public class QueryResultsActivity
 		setContentView(R.layout.list_of_books);
 
 		// Hook the recycler view
-		RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+		BookRecyclerView recyclerView = (BookRecyclerView) findViewById(R.id.recycler_view);
 
 		// Set fixed size true and optimize recycler view performance
 		// The data container has fixed number of attractions and not infinite list
@@ -77,8 +81,14 @@ public class QueryResultsActivity
 		// so the widget can be populated in the UI
 		recyclerView.setAdapter(mAdapter);
 
-		// Progress bar
-		mProgressSpinner = findViewById(R.id.progress_spinner);
+		// Set empty view when there is no data on the recycler view
+		mEmptyStateView = (TextView) findViewById(R.id.empty_text_view);
+		recyclerView.setEmptyView(mEmptyStateView);
+
+		// Get reference to the Progress bar
+		mProgressSpinner = (ProgressBar) findViewById(R.id.progress_spinner);
+		// Indeterminate progress bar type
+		mProgressSpinner.setIndeterminate(true);
 
 		// Get the spawn intent
 		Intent queryIntent = getIntent();
@@ -136,6 +146,9 @@ public class QueryResultsActivity
 	public void onLoadFinished(Loader<List<Book>> loader, List<Book> books) {
 		// Hide progress bar
 		mProgressSpinner.setVisibility(View.GONE);
+
+		// Set empty state text to display "No books to display."
+		mEmptyStateView.setText(R.string.no_books);
 
 		// Clear the adapter of previous data
 		mAdapter.clear();
