@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Primary color of the app (shown in the app bar) -->
     <color name="colorPrimary">#4CAF50</color>
+
+    <!-- Primary dark color of the app (shown in the status bar) -->
     <color name="colorPrimaryDark">#087f23</color>
+
+    <!-- Accent color of the app -->
     <color name="colorAccent">#FF4081</color>
 
     <!-- Background color for the image button with the magnifying glass -->
