@@ -3,19 +3,15 @@ package com.example.android.books;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
-
-	private final String LOG_TAG = BookAdapter.class.getSimpleName();
 
 	/**
 	 * A {@link List} of {@link String} to hold book titles
@@ -59,24 +55,6 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 	public void onBindViewHolder(CardViewHolder holder, int position) {
 		// Get the current book that is being requested for display
 		Book currentBook = mListOfBooks.get(position);
-
-		// Set the book title to the correct view
-		holder.bookTitle.setText(currentBook.getTitle());
-
-		try {
-
-			// Set the author of the book to the correct view
-			String authors = currentBook.getAuthor();
-
-			// Check whether the book author information or not
-			if (!authors.isEmpty()) {
-				// The book does have information on its author
-				holder.bookAuthor.setText(authors);
-			}
-
-		} catch (NullPointerException e) {
-			Log.v(LOG_TAG, "No information on authors");
-		}
 
 		// Set the cover image for the book
 		holder.bookArt.setImageBitmap(currentBook.getCoverImage());
@@ -125,16 +103,6 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 	 */
 	static class CardViewHolder extends RecyclerView.ViewHolder {
 		/**
-		 * TextView for title of the book
-		 */
-		TextView bookTitle;
-
-		/**
-		 * TextView for the author
-		 */
-		TextView bookAuthor;
-
-		/**
 		 * ImageView for the front cover of the book
 		 */
 		ImageView bookArt;
@@ -146,12 +114,6 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 		 */
 		CardViewHolder(View itemView) {
 			super(itemView);
-
-			// Get a reference to the {@link TextView} to set title of the book
-			bookTitle = (TextView) itemView.findViewById(R.id.book_title_text_view);
-
-			// Get reference to the {@link TextView} to set author of the book
-			bookAuthor = (TextView) itemView.findViewById(R.id.author_text_view);
 
 			// Get the reference to the {@link ImageView} to set the front cover art for the book
 			bookArt = (ImageView) itemView.findViewById(R.id.front_cover_art_image_view);

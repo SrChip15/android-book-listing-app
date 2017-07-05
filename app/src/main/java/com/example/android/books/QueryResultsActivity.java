@@ -18,8 +18,6 @@ public class QueryResultsActivity
 		extends AppCompatActivity
 		implements LoaderCallbacks<List<Book>> {
 
-	// private static final String LOG_TAG = QueryResultsActivity.class.getSimpleName();
-
 	/**
 	 * URL for books data from the Google books API
 	 */

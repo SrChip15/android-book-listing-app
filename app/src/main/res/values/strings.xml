@@ -1,14 +1,21 @@
 <resources>
+    <!-- Title for the application. [CHAR LIMIT=12] -->
     <string name="app_name">Books</string>
 
-    <!-- User hint to type the name of a book in the search bar -->
+    <!-- User hint to type the name of a book in the search bar [CHAR LIMIT=NONE] -->
     <string name="tooltip_search_button">Type Topic or Book Name</string>
 
-    <!-- Content description for the search bar button view -->
+    <!-- Content description for the search bar button view [CHAR LIMIT=NONE] -->
     <string name="search_button_content_desc">Search button</string>
 
-    <!-- Content description for the search bar button view -->
+    <!-- Title of the books search interface in the landing page [CHAR LIMIT=20] -->
     <string name="title_text">Booooks</string>
+
+    <!-- Content description for the front cover image of the book
+    in the book card view [CHAR LIMIT=NONE] -->
     <string name="book_cover_image">Front Cover Image for the Book</string>
+
+    <!-- Prompt user to enter text before proceeding to search from the API -->
+    <string name="enter_text">Enter text before proceeding</string>
 
 </resources>

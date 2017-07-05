@@ -51,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
 		});
 	}
 
+	/**
+	 * This method is called when the user presses the search button. It fires up the query
+	 * results activity that displays the search results, via an intent
+	 */
 	public void searchFor(View view) {
 		EditText userInput = (EditText) findViewById(R.id.user_input_text);
 		String input = userInput.getText().toString();
@@ -68,7 +72,12 @@ public class MainActivity extends AppCompatActivity {
 		} else {
 			// User has not entered any search text
 			// Notify user to enter text via toast
-			Toast.makeText(MainActivity.this, "Enter text before proceeding", Toast.LENGTH_SHORT).show();
+			Toast
+					.makeText(
+							MainActivity.this,
+							getString(R.string.enter_text),
+							Toast.LENGTH_SHORT)
+					.show();
 		}
 	}
 }
