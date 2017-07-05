@@ -5,6 +5,8 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -121,13 +123,29 @@ public class QueryResultsActivity
 		// Build the url from user search
 		REQUEST_URL += processedQuery + "&maxResults=40" + "&key=" + API_KEY;
 
-		// Get a reference to the loader manager in order to interact with the loaders
-		LoaderManager loaderManager = getLoaderManager();
+		// Get a reference to the ConnectivityManager to check state of network connectivity
+		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 
-		// Initialize the loader manager. Pass in the constant declared above as the ID of the
-		// loader manager and pass in null for the bundle parameter. Finally, also pass in the
-		// context of the application since this application implements the LoaderCallbacks interface
-		loaderManager.initLoader(EARTHQUAKE_LOADER_ID, null, QueryResultsActivity.this);
+		// Get details on the currently active default data network
+		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+		// If there is a network connection, fetch data
+		if (networkInfo != null && networkInfo.isConnected()) {
+			// Get a reference to the loader manager in order to interact with the loaders
+			LoaderManager loaderManager = getLoaderManager();
+
+			// Initialize the loader manager. Pass in the constant declared above as the ID of the
+			// loader manager and pass in null for the bundle parameter. Finally, also pass in the
+			// context of the application since this application implements the LoaderCallbacks interface
+			loaderManager.initLoader(EARTHQUAKE_LOADER_ID, null, QueryResultsActivity.this);
+		} else {
+			// Otherwise, display error
+			// First, hide loading indicator so error message will be visible
+			mProgressSpinner.setVisibility(View.GONE);
+
+			// Update empty state with no connection error message
+			mEmptyStateView.setText(R.string.no_internet_connection);
+		}
 	}
 
 	/**
