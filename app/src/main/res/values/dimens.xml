@@ -24,4 +24,25 @@
     <!-- Width of the search button -->
     <dimen name="search_button_width">56dp</dimen>
 
+    <!-- Height of the book -->
+    <dimen name="book_height">240dp</dimen>
+
+    <!-- Width of the book -->
+    <dimen name="book_width">200dp</dimen>
+
+    <!-- Left margin for text on book -->
+    <dimen name="book_info_centering_left">12dp</dimen>
+
+    <!-- Right margin for text on book -->
+    <dimen name="book_info_centering_right">12dp</dimen>
+
+    <!-- Vertical spacing -->
+    <dimen name="vertical_spacing">12dp</dimen>
+
+    <!-- Text size for the book title displayed within the book card -->
+    <dimen name="book_title_text_size">16sp</dimen>
+
+    <!-- Text size for Author, RetailPrice displayed within the book card -->
+    <dimen name="book_secondary_info">10sp</dimen>
+
 </resources>

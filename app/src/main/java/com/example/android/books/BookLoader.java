@@ -6,16 +6,17 @@ import android.content.Context;
 class BookLoader extends AsyncTaskLoader {
 
 	/**
-	 * The built-up search query following the API
+	 * The url to query the API
 	 */
 	private String mSearchUrl;
 
 	/**
 	 * Create a loader object
+	 *
 	 * @param context the {@link Context} of the application
 	 * @param url {@link String} search query
 	 */
-	public BookLoader(Context context, String url) {
+	BookLoader(Context context, String url) {
 		super(context);
 		this.mSearchUrl = url;
 	}
@@ -30,7 +31,7 @@ class BookLoader extends AsyncTaskLoader {
 
 	/**
 	 * This method is called in a background thread and takes care of the heavy lifting generating
-	 * new data from scraping the API
+	 * new data from the API
 	 */
 	@Override
 	public Object loadInBackground() {

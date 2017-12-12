@@ -2,14 +2,18 @@ package com.example.android.books;
 
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Intent;
 import android.content.Loader;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +43,12 @@ public class QueryResultsActivity
 	/**
 	 * Indeterminate progress bar for loading books
 	 */
-	private View mProgressSpinner;
+	private ProgressBar mProgressSpinner;
+
+	/**
+	 * TextView that is displayed when the list is empty
+	 */
+	private TextView mEmptyStateView;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,7 +60,7 @@ public class QueryResultsActivity
 		setContentView(R.layout.list_of_books);
 
 		// Hook the recycler view
-		RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+		BookRecyclerView recyclerView = (BookRecyclerView) findViewById(R.id.recycler_view);
 
 		// Set fixed size true and optimize recycler view performance
 		// The data container has fixed number of attractions and not infinite list
@@ -68,28 +77,75 @@ public class QueryResultsActivity
 		}
 
 		// Initialize the adapter with the sample data
-		mAdapter = new BookAdapter(this, new ArrayList<Book>());
+		mAdapter = new BookAdapter(new ArrayList<Book>());
 
 		// Attach adapter to the {@link RecyclerView} widget
 		// so the widget can be populated in the UI
 		recyclerView.setAdapter(mAdapter);
 
-		// Progress bar
-		mProgressSpinner = findViewById(R.id.progress_spinner);
+		// Set empty view when there is no data on the recycler view
+		mEmptyStateView = (TextView) findViewById(R.id.empty_text_view);
+		recyclerView.setEmptyView(mEmptyStateView);
 
-		// Get the search term from user input
-		String searchForText = getIntent().getStringExtra("topic");
+		// Get reference to the Progress bar
+		mProgressSpinner = (ProgressBar) findViewById(R.id.progress_spinner);
+		// Indeterminate progress bar type
+		mProgressSpinner.setIndeterminate(true);
+
+		// Get the spawn intent
+		Intent queryIntent = getIntent();
+		// Get the search text typed by the user
+		String searchText = getIntent().getStringExtra("topic");
+		// Initialize variable to hold the processed search query
+		String processedQuery = "";
+		// Get the value for title key packaged in the spawn intent
+		String title = queryIntent.getStringExtra("title");
+		// Get the value for author key packaged in the spawn intent
+		String author = queryIntent.getStringExtra("author");
+		// Get the value for isbn key packaged in the spawn intent
+		String isbn = queryIntent.getStringExtra("isbn");
+
+		// Determine which radio box was checked based on non-null values from the above keys
+		if (title != null) {
+			// Title was checked by the user
+			processedQuery = searchText + "&" + title + searchText;
+		} else if (author != null) {
+			// User is searching an author matching the search text
+			processedQuery = searchText + "&" + author + searchText;
+		} else if (isbn != null) {
+			// User is searching the isbn number matching the search text
+			processedQuery = searchText + "&" + isbn + searchText;
+		} else {
+			// No filters used
+			processedQuery = searchText;
+		}
 
 		// Build the url from user search
-		REQUEST_URL += searchForText + "&key=" + API_KEY;
+		REQUEST_URL += processedQuery + "&maxResults=40" + "&key=" + API_KEY;
 
-		// Get a reference to the loader manager in order to interact with the loaders
-		LoaderManager loaderManager = getLoaderManager();
+		// Get a reference to the ConnectivityManager to check state of network connectivity
+		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
 
-		// Initialize the loader manager. Pass in the constant declared above as the ID of the
-		// loader manager and pass in null for the bundle parameter. Finally, also pass in the
-		// context of the application since this application implements the LoaderCallbacks interface
-		loaderManager.initLoader(EARTHQUAKE_LOADER_ID, null, QueryResultsActivity.this);
+		// Get details on the currently active default data network
+		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+		// If there is a network connection, fetch data
+		if (networkInfo != null && networkInfo.isConnected()) {
+			// Get a reference to the loader manager in order to interact with the loaders
+			LoaderManager loaderManager = getLoaderManager();
+
+			// Initialize the loader manager. Pass in the constant declared above as the ID of the
+			// loader manager and pass in null for the bundle parameter. Finally, also pass in the
+			// context of the application since this application implements the LoaderCallbacks interface
+			loaderManager.initLoader(EARTHQUAKE_LOADER_ID, null, QueryResultsActivity.this);
+		} else {
+			// Otherwise, display error
+			// First, hide loading indicator so error message will be visible
+			mProgressSpinner.setVisibility(View.GONE);
+
+			// Update empty state with no connection error message
+			mEmptyStateView.setText(R.string.no_internet_connection);
+		}
 	}
 
 	/**
@@ -108,6 +164,9 @@ public class QueryResultsActivity
 	public void onLoadFinished(Loader<List<Book>> loader, List<Book> books) {
 		// Hide progress bar
 		mProgressSpinner.setVisibility(View.GONE);
+
+		// Set empty state text to display "No books to display."
+		mEmptyStateView.setText(R.string.no_books);
 
 		// Clear the adapter of previous data
 		mAdapter.clear();

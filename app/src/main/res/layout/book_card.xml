@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
-    android:layout_width="200dp"
-    android:layout_height="240dp"
+    android:layout_width="@dimen/book_width"
+    android:layout_height="@dimen/book_height"
     app:cardUseCompatPadding="true">
 
     <RelativeLayout
@@ -19,7 +19,56 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/book_cover_image"
             android:scaleType="fitXY"
-            tools:src="@drawable/book_cover_sample"/>
+            android:src="@drawable/book_cover"/>
+
+        <!-- Title of the book -->
+        <TextView
+            android:id="@+id/book_title_text_view"
+            style="@style/book_title_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/vertical_spacing"
+            android:gravity="center"
+            tools:text="Title"/>
+
+        <LinearLayout
+            style="@style/book_info_centering"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/vertical_spacing"
+            android:orientation="vertical">
+
+            <!-- Author of the book -->
+            <TextView
+                android:id="@+id/author_text_view"
+                style="@style/book_author_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Author"/>
+
+            <!-- Average Ratings for the book -->
+            <RatingBar
+                android:id="@+id/rating_bar"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:rating="3"
+                android:stepSize="0.1"/>
+
+            <!-- Price of the book -->
+            <TextView
+                android:id="@+id/retail_price_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/min_dimension"
+                android:textColor="@android:color/holo_blue_light"
+                android:textSize="@dimen/book_secondary_info"
+                tools:text="$4.99"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
 

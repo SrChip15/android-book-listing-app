@@ -9,6 +9,13 @@
     <!-- Accent color of the app -->
     <color name="colorAccent">#FF4081</color>
 
-    <!-- Background color for the search image button -->
+    <!-- Background color for the image button with the magnifying glass -->
     <color name="search_button_background">#D3D3D3</color>
+
+    <!-- Text color for the book's author text -->
+    <color name="book_author_text_color">#FFAB40</color>
+
+    <!-- Button tint color for the checkboxes in the main page -->
+    <color name="checkbox_tint">#FFAB40</color>
+
 </resources>

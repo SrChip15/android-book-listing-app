@@ -1,33 +1,33 @@
 package com.example.android.books;
 
 
-import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 
-	/**
-	 * A {@link List} of {@link String} to hold book titles
-	 */
+	private final String LOG_TAG = BookAdapter.class.getSimpleName();
+	/** A {@link List} of {@link String} to hold book titles */
 	private List<Book> mListOfBooks;
-
-	private Context mContext;
 
 	/**
 	 * Create a new {@link BookAdapter} for the {@link RecyclerView}
 	 *
 	 * @param listOfBooks a {@link List<String>} of book titles
 	 */
-	BookAdapter(Context context, List<Book> listOfBooks) {
+	BookAdapter(List<Book> listOfBooks) {
 		this.mListOfBooks = listOfBooks;
-		this.mContext = context;
 	}
 
 	/**
@@ -40,8 +40,11 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 	 */
 	@Override
 	public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(mContext).inflate(
-				R.layout.book_card, parent, false);
+		// Use layout inflater and inflate the necessary view
+		View view = LayoutInflater.from(parent.getContext())
+				.inflate(R.layout.book_card, parent, false);
+
+		// Return inflated view
 		return new CardViewHolder(view);
 	}
 
@@ -56,8 +59,40 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 		// Get the current book that is being requested for display
 		Book currentBook = mListOfBooks.get(position);
 
-		// Set the cover image for the book
-		holder.bookArt.setImageBitmap(currentBook.getCoverImage());
+		// Set the book title to the correct view
+		holder.bookTitle.setText(currentBook.getTitle());
+
+		try {
+
+			// Set the author of the book to the correct view
+			String authors = currentBook.getAuthor();
+
+			// Check whether the book author information or not
+			if (!authors.isEmpty()) {
+				// The book does have information on its author
+				holder.bookAuthor.setText(authors);
+			}
+
+		} catch (NullPointerException e) {
+			// Author information is not available from the JSON response
+			Log.v(LOG_TAG, "No information on authors");
+
+			// Hide view from book
+			holder.bookAuthor.setVisibility(View.INVISIBLE);
+		}
+
+		// Set the rating for the book
+		holder.bookRating.setRating(currentBook.getRating());
+
+		// Initialize string variable to store book price
+		String price = "";
+		if (currentBook.getPrice() > 0) {
+			// Book is available for sale
+			// Get the book price
+			price = "$" + currentBook.getPrice();
+			// Set the price of the book to the text view
+			holder.bookPrice.setText(price);
+		}
 	}
 
 	/**
@@ -102,10 +137,17 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 	 * adapter manipulates data that is presented to the user via the UI
 	 */
 	static class CardViewHolder extends RecyclerView.ViewHolder {
-		/**
-		 * ImageView for the front cover of the book
-		 */
-		ImageView bookArt;
+		/** TextView for title of the book */
+		TextView bookTitle;
+
+		/** TextView for the author*/
+		TextView bookAuthor;
+
+		/** Rating bar for the average rating of the book */
+		RatingBar bookRating;
+
+		/** TextView for the retail price of the book */
+		TextView bookPrice;
 
 		/**
 		 * Create a new {@link ViewGroup}
@@ -115,8 +157,24 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 		CardViewHolder(View itemView) {
 			super(itemView);
 
-			// Get the reference to the {@link ImageView} to set the front cover art for the book
-			bookArt = (ImageView) itemView.findViewById(R.id.front_cover_art_image_view);
+			// Get a reference to the {@link TextView} to set title of the book
+			bookTitle = (TextView) itemView.findViewById(R.id.book_title_text_view);
+
+			// Get reference to the {@link TextView} to set author of the book
+			bookAuthor = (TextView) itemView.findViewById(R.id.author_text_view);
+
+			// Get reference to the ratings bar
+			bookRating = (RatingBar) itemView.findViewById(R.id.rating_bar);
+			// Set the max stars for the bar
+			bookRating.setMax(5);
+			// Set number of stars to show
+			bookRating.setNumStars(5);
+			// Set the stars color to white
+			Drawable progress = bookRating.getProgressDrawable();
+			DrawableCompat.setTint(progress, Color.YELLOW);
+
+			// Get reference to the retail {@link TextView} to set the retail price of the book
+			bookPrice = (TextView) itemView.findViewById(R.id.retail_price_text_view);
 		}
 	}
 }

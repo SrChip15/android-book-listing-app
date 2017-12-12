@@ -2,20 +2,37 @@
     <!-- Title for the application. [CHAR LIMIT=12] -->
     <string name="app_name">Books</string>
 
-    <!-- User hint to type the name of a book in the search bar [CHAR LIMIT=NONE] -->
-    <string name="tooltip_search_button">Type Topic or Book Name</string>
+    <!-- User hint to type the name of a book in the search bar [CHAR LIMIT=20] -->
+    <string name="tooltip_search_button">Search"</string>
 
     <!-- Content description for the search bar button view [CHAR LIMIT=NONE] -->
     <string name="search_button_content_desc">Search button</string>
 
-    <!-- Title of the books search interface in the landing page [CHAR LIMIT=20] -->
+    <!-- Title for the search interface in the landing page [CHAR LIMIT=20] -->
     <string name="title_text">Booooks</string>
 
     <!-- Content description for the front cover image of the book
-    in the book card view [CHAR LIMIT=NONE] -->
+    in the book card view[CHAR LIMIT=NONE] -->
     <string name="book_cover_image">Front Cover Image for the Book</string>
 
-    <!-- Prompt user to enter text before proceeding to search from the API -->
+    <!-- Text displayed for the Author radio filter [CHAR LIMIT=20]-->
+    <string name="author_radio_text">Author</string>
+
+    <!-- Text displayed for the Book title radio filter [CHAR LIMIT=20]-->
+    <string name="title_radio_text">Title</string>
+
+    <!-- Text displayed for the ISBN radio filter [CHAR LIMIT=20] -->
+    <string name="isbn_radio_text">ISBN</string>
+
+    <!-- Text to display for the empty state view
+    when there is no data to display [CHAR LIMIT=NONE] -->
+    <string name="no_books">No Books To Display</string>
+
+    <!-- Prompt user to enter text in the search bar before proceeding [CHAR LIMIT=NONE] -->
     <string name="enter_text">Enter text before proceeding</string>
+
+    <!-- Error text message to display when the device has no access to the internet while
+    performing the search [CHAR LIMIT=NONE]-->
+    <string name="no_internet_connection">No Internet Connection.</string>
 
 </resources>

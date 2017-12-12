@@ -8,4 +8,24 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Styling for the centering the {@link TextView}s overlaid on the book -->
+    <style name="book_info_centering">
+        <item name="android:layout_marginLeft">@dimen/book_info_centering_left</item>
+        <item name="android:layout_marginRight">@dimen/book_info_centering_right</item>
+    </style>
+
+    <!-- Styling for the book's title {@link TextView} -->
+    <style name="book_title_text" parent="book_info_centering">
+        <item name="android:typeface">serif</item>
+        <item name="android:textSize">@dimen/book_title_text_size</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <!-- Styling for the book's author {@link TextView} -->
+    <style name="book_author_text">
+        <item name="android:typeface">monospace</item>
+        <item name="android:textSize">@dimen/book_secondary_info</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
 </resources>
