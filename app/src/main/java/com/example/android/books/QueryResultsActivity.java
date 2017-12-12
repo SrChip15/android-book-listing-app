@@ -22,32 +22,22 @@ public class QueryResultsActivity
 		extends AppCompatActivity
 		implements LoaderCallbacks<List<Book>> {
 
-	/**
-	 * URL for books data from the Google books API
-	 */
+	/** URL for books data from the Google books API */
 	private String REQUEST_URL =
 			"https://www.googleapis.com/books/v1/volumes?q=";
 
 	private static final String API_KEY = "AIzaSyCaNgg0GLoPlz75osYA3mDIYG0rWAZo01s";
 
-	/**
-	 * Adapter for the list of book titles
-	 */
+	/** Adapter for the list of book titles */
 	private BookAdapter mAdapter;
 
-	/**
-	 * Constant value for the earthquake loader ID
-	 */
+	/** Constant value for the earthquake loader ID */
 	private static final int EARTHQUAKE_LOADER_ID = 1;
 
-	/**
-	 * Indeterminate progress bar for loading books
-	 */
+	/** Indeterminate progress bar for loading books */
 	private ProgressBar mProgressSpinner;
 
-	/**
-	 * TextView that is displayed when the list is empty
-	 */
+	/** TextView that is displayed when the list is empty */
 	private TextView mEmptyStateView;
 
 	@Override
@@ -60,7 +50,7 @@ public class QueryResultsActivity
 		setContentView(R.layout.list_of_books);
 
 		// Hook the recycler view
-		BookRecyclerView recyclerView = (BookRecyclerView) findViewById(R.id.recycler_view);
+		BookRecyclerView recyclerView = findViewById(R.id.recycler_view);
 
 		// Set fixed size true and optimize recycler view performance
 		// The data container has fixed number of attractions and not infinite list
@@ -84,11 +74,11 @@ public class QueryResultsActivity
 		recyclerView.setAdapter(mAdapter);
 
 		// Set empty view when there is no data on the recycler view
-		mEmptyStateView = (TextView) findViewById(R.id.empty_text_view);
+		mEmptyStateView = findViewById(R.id.empty_text_view);
 		recyclerView.setEmptyView(mEmptyStateView);
 
 		// Get reference to the Progress bar
-		mProgressSpinner = (ProgressBar) findViewById(R.id.progress_spinner);
+		mProgressSpinner = findViewById(R.id.progress_spinner);
 		// Indeterminate progress bar type
 		mProgressSpinner.setIndeterminate(true);
 

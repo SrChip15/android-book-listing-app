@@ -20,14 +20,10 @@ import java.util.List;
 
 final class QueryUtils {
 
-	/**
-	 * Tag for the log messages
-	 */
+	/** Tag for the log messages */
 	private static final String LOG_TAG = QueryUtils.class.getSimpleName();
 
-	/**
-	 * Create a private constructor because no one should ever create a {@link QueryUtils} object.
-	 */
+	/** Create a private constructor because no one should ever create a {@link QueryUtils} object. */
 	private QueryUtils() {
 	}
 
@@ -56,9 +52,7 @@ final class QueryUtils {
 		return QueryUtils.extractFeatures(jsonResponse);
 	}
 
-	/**
-	 * Returns new URL object from the given string URL.
-	 */
+	/** Returns new URL object from the given string URL. */
 	private static URL createUrl(String stringUrl) {
 		// Initialize an empty {@link URL} object to hold the parsed URL from the stringUrl
 		URL url = null;
@@ -105,7 +99,7 @@ final class QueryUtils {
 
 				// Extract information on authors of the book
 				// Initialize empty string to hold authors of the book
-				String authors = "";
+				StringBuilder authors = new StringBuilder();
 				// Check whether the JSON results contain information on authors of the book
 				if (volume.has("authors")) {
 					// JSON does have author information
@@ -117,7 +111,7 @@ final class QueryUtils {
 					// over-populating the view
 					int maxAuthors = 3;
 
-					/* Sometimes author information hell within the author JSON array
+					/* Sometimes author information within the author JSON array
 					 is a single string item with concatenated authors separated by
 					 a semicolon or a comma and this does not display itself properly on the
 					 screen because there are too many authors along with the separators */
@@ -140,14 +134,14 @@ final class QueryUtils {
 						allAuthors = cAuthors.split("[;,]");
 						// Traverse the array and get up to max authors
 						for (int j = 0; j < allAuthors.length && j < maxAuthors; j++) {
-							authors += allAuthors[j].trim() + "\n";
+							authors.append(allAuthors[j].trim()).append("\n");
 						}
 
 					} else {
 						// Authors are not concatenated within the array as a single string item
 						// Traverse the json array and add authors to the newly initialized array
 						for (int j = 0; j < numberOfAuthors && j < maxAuthors; j++) {
-							authors += jsonAuthors.getString(j) + "\n";
+							authors.append(jsonAuthors.getString(j)).append("\n");
 						}
 					}
 				}
@@ -175,7 +169,7 @@ final class QueryUtils {
 				}
 
 				// Add book to the list
-				allBooks.add(new Book(bookTitle, authors, bookRating, bookPrice));
+				allBooks.add(new Book(bookTitle, authors.toString(), bookRating, bookPrice));
 			}
 
 		} catch (JSONException e) {
@@ -189,9 +183,7 @@ final class QueryUtils {
 		return allBooks;
 	}
 
-	/**
-	 * Make an HTTP request to the given URL and return a String as the response.
-	 */
+	/** Make an HTTP request to the given URL and return a String as the response. */
 	private static String makeHttpRequest(URL url) throws IOException {
 		// Initialize variable to hold the parsed json response
 		String jsonResponse = "";

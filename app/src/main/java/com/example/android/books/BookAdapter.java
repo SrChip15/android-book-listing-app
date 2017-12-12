@@ -158,13 +158,13 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 			super(itemView);
 
 			// Get a reference to the {@link TextView} to set title of the book
-			bookTitle = (TextView) itemView.findViewById(R.id.book_title_text_view);
+			bookTitle = itemView.findViewById(R.id.book_title_text_view);
 
 			// Get reference to the {@link TextView} to set author of the book
-			bookAuthor = (TextView) itemView.findViewById(R.id.author_text_view);
+			bookAuthor = itemView.findViewById(R.id.author_text_view);
 
 			// Get reference to the ratings bar
-			bookRating = (RatingBar) itemView.findViewById(R.id.rating_bar);
+			bookRating = itemView.findViewById(R.id.rating_bar);
 			// Set the max stars for the bar
 			bookRating.setMax(5);
 			// Set number of stars to show
@@ -174,7 +174,7 @@ class BookAdapter extends RecyclerView.Adapter<BookAdapter.CardViewHolder> {
 			DrawableCompat.setTint(progress, Color.YELLOW);
 
 			// Get reference to the retail {@link TextView} to set the retail price of the book
-			bookPrice = (TextView) itemView.findViewById(R.id.retail_price_text_view);
+			bookPrice = itemView.findViewById(R.id.retail_price_text_view);
 		}
 	}
 }

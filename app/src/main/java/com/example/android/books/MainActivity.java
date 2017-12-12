@@ -34,10 +34,10 @@ public class MainActivity extends AppCompatActivity {
 		setupUI(findViewById(R.id.main_parent));
 
 		// Get a reference to the user input edit text view
-		mUserSearch = (EditText) findViewById(R.id.user_input_edit_text_view);
+		mUserSearch = findViewById(R.id.user_input_edit_text_view);
 
 		// Get a reference to the {@link ImageButton} to implement button click via keyboard
-		final ImageButton search = (ImageButton) findViewById(R.id.search_button);
+		final ImageButton search = findViewById(R.id.search_button);
 
 		// Set the an {@link OnEditorActionListener} on the editable text view
 		// Implement search button click when user presses the done button on the keyboard
@@ -66,16 +66,16 @@ public class MainActivity extends AppCompatActivity {
 	 */
 	public void searchFor(View view) {
 		// Get a handle for the editable text view holding the user's search text
-		EditText userInput = (EditText) findViewById(R.id.user_input_edit_text_view);
+		EditText userInput = findViewById(R.id.user_input_edit_text_view);
 		// Get the characters from the {@link EditText} view and convert it to string value
 		String input = userInput.getText().toString();
 
 		// Search filter for search text matching book titles
-		RadioButton mTitleChecked = (RadioButton) findViewById(R.id.title_radio);
+		RadioButton mTitleChecked = findViewById(R.id.title_radio);
 		// Search filter for search text matching authors
-		RadioButton mAuthorChecked = (RadioButton) findViewById(R.id.author_radio);
+		RadioButton mAuthorChecked = findViewById(R.id.author_radio);
 		// Search filter for search text matching ISBN numbers
-		RadioButton mIsbnChecked = (RadioButton) findViewById(R.id.isbn_radio);
+		RadioButton mIsbnChecked = findViewById(R.id.isbn_radio);
 
 		if (!input.isEmpty()) {
 			// On click display list of books matching search criteria
@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
 				@Override
 				public boolean onTouch(View v, MotionEvent event) {
 					// Hide keypad
+					v.performClick();
 					hideSoftKeyboard(MainActivity.this);
 					return false;
 				}
