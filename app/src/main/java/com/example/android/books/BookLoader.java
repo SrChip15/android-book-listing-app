@@ -3,12 +3,15 @@ package com.example.android.books;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 
-class BookLoader extends AsyncTaskLoader {
+import java.util.List;
 
-	/**
-	 * The url to query the API
-	 */
+class BookLoader extends AsyncTaskLoader<List<Book>> {
+
+	/** The url to query the API */
 	private String mSearchUrl;
+
+	/** Data from the API */
+	private List<Book> mData;
 
 	/**
 	 * Create a loader object
@@ -18,15 +21,17 @@ class BookLoader extends AsyncTaskLoader {
 	 */
 	BookLoader(Context context, String url) {
 		super(context);
-		this.mSearchUrl = url;
+		mSearchUrl = url;
 	}
 
-	/**
-	 * Explicitly making the loader make HTTP request and begin loading data from content provider
-	 */
+	/** Explicitly making the loader make HTTP request and begin loading data from content provider */
 	@Override
 	protected void onStartLoading() {
-		forceLoad();
+		if (mData != null) {
+			deliverResult(mData); // Use cached data
+		} else {
+			forceLoad();
+		}
 	}
 
 	/**
@@ -34,7 +39,7 @@ class BookLoader extends AsyncTaskLoader {
 	 * new data from the API
 	 */
 	@Override
-	public Object loadInBackground() {
+	public List<Book> loadInBackground() {
 		// Check for valid string url
 		if (mSearchUrl == null) {
 			return null;
@@ -43,5 +48,11 @@ class BookLoader extends AsyncTaskLoader {
 		// Returns the list of books matching search criteria from Google books
 		// after performing network request, parsing input stream, and extracting a list of books
 		return QueryUtils.fetchBooks(mSearchUrl);
+	}
+
+	@Override
+	public void deliverResult(List<Book> data) {
+		mData = data; // Cache data
+		super.deliverResult(data);
 	}
 }
