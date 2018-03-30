@@ -27,3 +27,11 @@ on a given topic.
 width="300"/>
 <img src="https://raw.githubusercontent.com/SrChip15/android-book-listing-app/master/search_results.png"
 width="300"/>
+
+# License
+```
+Licensed under Apache License 2.0
+A permissive license whose main conditions require preservation of copyright and license notices. 
+Contributors provide an express grant of patent rights. Licensed works, modifications, 
+and larger works may be distributed under different terms and without source code.
+```
